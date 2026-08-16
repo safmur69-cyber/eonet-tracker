@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}NASA Natural Events Tracker{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('home') }}">EONET Tracker</a>
+        <a href="{{ url_for('browse') }}">Browse Events</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="footer">
+        <p>Data from NASA EONET v3 &mdash; eonet.gsfc.nasa.gov</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Home - EONET Tracker{% endblock %}
+
+{% block content %}
+<h1>NASA Natural Events Tracker</h1>
+<p>
+    This app pulls near-real-time natural event data (wildfires, storms,
+    volcanoes, floods and more) straight from NASA's
+    <a href="https://eonet.gsfc.nasa.gov/" target="_blank">EONET API</a>.
+</p>
+<p>
+    <a href="{{ url_for('browse') }}">Browse current events &rarr;</a>
+</p>
+{% endblock %}

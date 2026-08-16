@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Events - EONET Tracker{% endblock %}
+
+{% block content %}
+<h1>Browse Events</h1>
+
+<form method="get">
+    <select name="category">
+        <option value="">All categories</option>
+        {% for slug, label in categories %}
+            <option value="{{ slug }}" {% if slug == category %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="status">
+        <option value="open" {% if status == "open" %}selected{% endif %}>Open</option>
+        <option value="closed" {% if status == "closed" %}selected{% endif %}>Closed</option>
+        <option value="all" {% if status == "all" %}selected{% endif %}>All</option>
+    </select>
+
+    <input type="number" name="days" value="{{ days }}" min="1" placeholder="Days">
+
+    <button type="submit">Filter</button>
+</form>
+
+{% if events %}
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Coordinates</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+        <tr>
+            <td><a href="{{ url_for('event_detail', eonet_id=event.get_eonet_id()) }}">{{ event.title }}</a></td>
+            <td>{{ event.category }}</td>
+            <td>{{ event.status }}</td>
+            <td>{{ event.event_date or "unknown" }}</td>
+            <td>
+                {% if event.latitude is not none and event.longitude is not none %}
+                    {{ "%.2f"|format(event.latitude) }}, {{ "%.2f"|format(event.longitude) }}
+                {% else %}
+                    unknown
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No events found for these filters.</p>
+{% endif %}
+{% endblock %}

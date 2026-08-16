@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{% if event %}{{ event.title }}{% else %}Event{% endif %} - EONET Tracker{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('browse') }}">&larr; Back to browse</a>
+
+{% if event %}
+<h1>{{ event.title }}</h1>
+<p>Category: {{ event.category }}</p>
+<p>Status: {{ event.status }}</p>
+<p>Date: {{ event.event_date or "unknown" }}</p>
+<p>
+    Location:
+    {% if event.latitude is not none and event.longitude is not none %}
+        {{ event.latitude }}, {{ event.longitude }}
+    {% else %}
+        unknown
+    {% endif %}
+</p>
+
+{% if event.magnitude is not none %}
+<p>Magnitude: {{ event.magnitude }} {{ event.mag_unit or "" }}</p>
+{% endif %}
+
+{% if event.source_url %}
+<p>Source: <a href="{{ event.source_url }}" target="_blank">{{ event.source_url }}</a></p>
+{% endif %}
+{% else %}
+<p>This event could not be loaded.</p>
+{% endif %}
+{% endblock %}
